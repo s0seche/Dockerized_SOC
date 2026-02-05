@@ -137,7 +137,7 @@ setup.kibana:
 # ---------------------------- Elasticsearch Output ----------------------------
 output.elasticsearch:
   # Array of hosts to connect to.
-  hosts: ["IP:9200"]
+  hosts: ["localhost:9200"]
 
   # Protocol - either `http` (default) or `https`.
   #protocol: "https"

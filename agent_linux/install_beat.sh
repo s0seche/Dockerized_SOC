@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Vérification des droits root
 if [ "$EUID" -ne 0 ]; then
   echo " Ce script doit être lancé en root."
    exit 1
@@ -24,10 +23,22 @@ echo "Filebeat est installé"
 echo
 sleep 3
 clear
-echo " Modifier le fichier filebeat.yml et renseigner l'IP de Elastic :"
-echo '
+echo " Modifier le fichier filebeat.yml et renseigner l'IP de Elastic et l'IP de Kibana (localhost):"
+echo 'Pour Elastic
 output.elasticsearch:
   hosts: ["IP:9200"]
 '
+
 echo "Puis écraser la config -> /etc/filebeat/filebeat.yml"
+
+echo "Commande utile :" 
+echo 
+echo "sudo filebeat test config -> Verif config"
+echo
+echo "sudo filebeat test output -> Verif connexion "
+echo 
+echo "sudo filebeat setup -> chargement de la config"
+echo 
+echo "sudo systemctl restart filebeat -> Restart du service filebeat"
+echo "sudo systemctl enable filebeat -> Config le service filebeat pour l'allumer au démarrage de la machine"
 
