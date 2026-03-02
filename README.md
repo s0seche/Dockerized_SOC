@@ -47,4 +47,22 @@
 - **MinIO** ☁️  
     → Stockage S3 des preuves et fichiers
     
+---
+# To do 
+
+- Créé l'infra du client 
+	- AD
+	- CRM
+	- Intranet ( *optionel* )
+- Crée poste client 
+	- Client Windows 
+	- Client Linux
+- Crée agent 
+	- **Agent Linux -> ok** 
+	- Agent Windows
+	- Agent SRV
+- Déploiement sur Azure
+    - Postes clients 
+    - Agents 
+    - infra
 
