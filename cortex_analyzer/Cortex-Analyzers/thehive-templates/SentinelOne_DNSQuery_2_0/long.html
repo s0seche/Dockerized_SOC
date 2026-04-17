@@ -1,0 +1,42 @@
+<div class="panel panel-info" ng-if="success">
+    <div class="panel-heading">
+        <strong>SentinelOne - Hosts with DNS Queries for {{artifact.data}}</strong>
+    </div>
+    <div class="panel-body">
+        <dl class="dl-horizontal" ng-if="content.agent_names.length > 0">
+            <dt>Hosts Found</dt>
+            <dd>{{content.agent_names.length}}</dd>
+        </dl>
+        <div ng-if="content.agent_names.length > 0">
+            <p>The following hosts made at least one DNS request for <strong>{{artifact.data}}</strong> within the configured time window:</p>
+            <table class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Agent Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="agent in content.agent_names">
+                        <td>{{$index + 1}}</td>
+                        <td><code>{{agent}}</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-if="content.agent_names.length === 0" class="alert alert-success">
+            <i class="fa fa-check-circle"></i> No hosts found with DNS queries for this domain/URL within the time window.
+        </div>
+    </div>
+</div>
+<div class="panel panel-danger" ng-if="!success">
+    <div class="panel-heading">
+        <strong><i class="fa fa-warning"></i> SentinelOne - DNS Query error for {{artifact.data}}</strong>
+    </div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Error:</dt>
+            <dd class="wrap">{{content.errorMessage}}</dd>
+        </dl>
+    </div>
+</div>

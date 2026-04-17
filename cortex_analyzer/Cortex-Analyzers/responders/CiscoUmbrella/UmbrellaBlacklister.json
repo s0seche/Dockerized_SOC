@@ -1,0 +1,24 @@
+{
+  "name": "CiscoUmbrella_Blacklister",
+  "version": "1.1",
+  "author": "Kyle Parrish",
+  "url": "https://github.com/TheHive-Project/Cortex-Analyzers",
+  "license": "AGPL-V3",
+  "description": "Add domain to Cisco Umbrella blacklist via Enforcement API.",
+  "dataTypeList": ["thehive:case_artifact"],
+  "command": "CiscoUmbrella/UmbrellaBlacklister.py",
+  "baseConfig": "CiscoUmbrella",
+  "configurationItems": [
+    {
+      "name": "integration_url",
+      "description": "Custom integration url",
+      "type": "string",
+      "multi": false,
+      "required": true
+    }
+  ],
+  "registration_required": true,
+  "subscription_required": true,
+  "free_subscription": false,
+  "service_homepage": "https://umbrella.cisco.com"
+}

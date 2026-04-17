@@ -1,0 +1,72 @@
+{
+    "name": "SentinelOne_DNSReverseLookup",
+    "version": "1.0",
+    "author": "Fabien Bloume, StrangeBee",
+    "url": "https://github.com/TheHive-Project/Cortex-Analyzers",
+    "license": "AGPL-V3",
+    "description": "Query SentinelOne for DNS names that resolved to a given IP address. Returns the domains and the hosts that made the DNS queries. Supports both SDL (Security Data Lake) API and legacy Deep Visibility API.",
+    "dataTypeList": [
+        "ip"
+    ],
+    "baseConfig": "SentinelOne",
+    "command": "SentinelOne/SentinelOnev2.py",
+    "config": {
+        "service": "dns-reverse-lookup"
+    },
+    "configurationItems": [
+        {
+            "name": "s1_console_url",
+            "description": "SentinelOne Console URL (e.g., https://your-instance.sentinelone.net)",
+            "type": "string",
+            "multi": false,
+            "required": true
+        },
+        {
+            "name": "api_mode",
+            "description": "API mode: 'sdl' for new Security Data Lake API (recommended), 'dv' for legacy Deep Visibility API",
+            "type": "string",
+            "multi": false,
+            "required": false,
+            "defaultValue": "sdl"
+        },
+        {
+            "name": "sdl_token",
+            "description": "[SDL Mode] Log Access Read Key - generate in Console > Settings > API Keys > Log Access Keys > Add Read Key",
+            "type": "string",
+            "multi": false,
+            "required": false
+        },
+        {
+            "name": "sdl_url",
+            "description": "[SDL Mode] SDL URL if different from Console URL (optional, defaults to Console URL)",
+            "type": "string",
+            "multi": false,
+            "required": false
+        },
+        {
+            "name": "s1_api_key",
+            "description": "[DV Mode] API Key for legacy Deep Visibility mode (will expire!)",
+            "type": "string",
+            "multi": false,
+            "required": false
+        },
+        {
+            "name": "s1_account_id",
+            "description": "[DV Mode] Account ID for legacy Deep Visibility mode",
+            "type": "string",
+            "multi": false,
+            "required": false
+        },
+        {
+            "name": "s1_hours_ago",
+            "description": "Number of hours ago for the fromDate of the query. ToDate will be now. Default is 2.",
+            "type": "number",
+            "multi": false,
+            "required": false,
+            "defaultValue": 2
+        }
+    ],
+    "subscription_required": true,
+    "registration_required": true,
+    "free_subscription": false
+}

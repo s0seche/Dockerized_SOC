@@ -1,0 +1,57 @@
+<div class="panel panel-info" ng-if="success">
+    <div class="panel-heading">
+        <strong>SentinelOne - DNS Reverse Lookup for {{artifact.data}}</strong>
+    </div>
+    <div class="panel-body">
+        <div ng-if="content.dns_names.length > 0">
+            <h4>Domains that resolved to this IP</h4>
+            <p>Found <strong>{{content.dns_names.length}}</strong> domain(s) that resolved to <code>{{artifact.data}}</code>:</p>
+            <table class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Domain</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="dns in content.dns_names">
+                        <td>{{$index + 1}}</td>
+                        <td><code>{{dns}}</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-if="content.agent_names.length > 0">
+            <h4>Hosts that made DNS queries</h4>
+            <p>Found <strong>{{content.agent_names.length}}</strong> host(s) that queried DNS for this IP:</p>
+            <table class="table table-striped table-condensed">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Agent Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="agent in content.agent_names">
+                        <td>{{$index + 1}}</td>
+                        <td><code>{{agent}}</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-if="content.dns_names.length === 0 && content.agent_names.length === 0" class="alert alert-success">
+            <i class="fa fa-check-circle"></i> No DNS records found for this IP within the configured time window.
+        </div>
+    </div>
+</div>
+<div class="panel panel-danger" ng-if="!success">
+    <div class="panel-heading">
+        <strong><i class="fa fa-warning"></i> SentinelOne - DNS Reverse Lookup error for {{artifact.data}}</strong>
+    </div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Error:</dt>
+            <dd class="wrap">{{content.errorMessage}}</dd>
+        </dl>
+    </div>
+</div>
