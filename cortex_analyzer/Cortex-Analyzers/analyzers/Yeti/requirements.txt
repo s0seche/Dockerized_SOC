@@ -1,2 +1,0 @@
-cortexutils
-git+https://github.com/yeti-platform/pyeti

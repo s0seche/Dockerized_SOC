@@ -1,6 +1,0 @@
-cortexutils
-requests
-datetime
-python-dateutil
-pytz
-diskcache

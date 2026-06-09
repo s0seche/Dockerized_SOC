@@ -1,9 +1,0 @@
-papermill
-jupyter
-nbconvert
-nbformat
-tornado
-ipython
-ipykernel
-cortexutils
-black

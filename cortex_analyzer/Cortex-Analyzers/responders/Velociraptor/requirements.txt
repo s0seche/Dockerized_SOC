@@ -1,4 +1,0 @@
-cortexutils
-cryptography
-grpcio-tools
-pyvelociraptor

@@ -1,5 +1,0 @@
-cortexutils
-future
-requests
-maltiverse
-PyJWT

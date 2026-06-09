@@ -1,3 +1,0 @@
-cortexutils
-yara-python
-requests

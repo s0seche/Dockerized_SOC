@@ -1,0 +1,2 @@
+chmod 777 /tmp/cortex-jobs
+chown -R 1000:1000 /tmp/cortex-jobs

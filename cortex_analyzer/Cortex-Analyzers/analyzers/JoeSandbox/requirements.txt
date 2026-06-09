@@ -1,3 +1,0 @@
-cortexutils
-requests
-jbxapi==3.2.0

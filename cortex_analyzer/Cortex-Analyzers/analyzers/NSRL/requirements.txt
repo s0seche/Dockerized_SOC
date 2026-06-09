@@ -1,3 +1,0 @@
-cortexutils
-sqlalchemy
-psycopg2-binary

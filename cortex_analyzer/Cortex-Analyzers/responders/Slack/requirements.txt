@@ -1,3 +1,0 @@
-cortexutils
-requests
-thehive4py>=2.0.0b

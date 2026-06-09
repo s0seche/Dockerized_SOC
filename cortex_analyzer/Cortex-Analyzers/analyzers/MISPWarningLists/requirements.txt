@@ -1,6 +1,0 @@
-cortexutils
-requests
-ipaddress
-tld
-sqlalchemy
-psycopg2-binary

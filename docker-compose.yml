@@ -26,10 +26,37 @@ services:
       - "5601:5601"
     environment:
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-      XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY: "changeme" # Changeme 
+      XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY: "azertyuiopqsdfghjklmwxcvbn123456"
       SERVER_PUBLICBASEURL: "http://192.168.1.129:5601"
     depends_on:
       - elasticsearch
+    networks:
+      - soc_net
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.17.9
+    container_name: logstash
+    restart: unless-stopped
+    ports:
+      - "5044:5044"
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+    depends_on:
+      - elasticsearch
+    networks:
+      - soc_net
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.17.9
+    container_name: filebeat
+    user: root
+    restart: unless-stopped
+    volumes:
+      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - logstash
     networks:
       - soc_net
 
@@ -50,7 +77,7 @@ services:
     command: minio server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin #Changeme
+      MINIO_ROOT_PASSWORD: minioadmin
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -60,7 +87,11 @@ services:
       - soc_net
 
   cortex:
-    image: thehiveproject/cortex:latest
+    build:
+      context: ./cortex
+      dockerfile: Dockerfile
+
+    #image: thehiveproject/cortex:latest
     container_name: cortex
     restart: unless-stopped
     depends_on:
@@ -71,6 +102,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./cortex/application.conf:/cortex/application.conf
       - ./cortex_analyzer/Cortex-Analyzers:/opt/Cortex-Analyzers
+      - /tmp/cortex-jobs:/tmp/cortex-jobs 
     networks:
       - soc_net
 
@@ -121,7 +153,7 @@ services:
       MYSQL_DATABASE: mispdb
       MYSQL_USER: mispuser
       MYSQL_PASSWORD: misppass
-      MYSQL_ROOT_PASSWORD: misppass #Changeme
+      MYSQL_ROOT_PASSWORD: misppass
     networks:
       - soc_net
 
@@ -139,7 +171,7 @@ services:
       MYSQL_HOST: misp_mysql
       MYSQL_DATABASE: mispdb
       MYSQL_USER: mispuser
-      MYSQL_PASSWORD: misppass # Changeme
+      MYSQL_PASSWORD: misppass
       MISP_BASEURL: https://localhost
     networks:
       - soc_net

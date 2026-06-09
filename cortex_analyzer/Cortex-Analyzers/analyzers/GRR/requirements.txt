@@ -1,3 +1,0 @@
-cortexutils
-grr-api-client
-setuptools
