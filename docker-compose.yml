@@ -1,6 +1,6 @@
-version: "3.7"
-
 services:
+
+  # ─── ELK Stack ────────────────────────────────────────────────────────────
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.9
@@ -60,6 +60,7 @@ services:
     networks:
       - soc_net
 
+  # ─── TheHive Stack ────────────────────────────────────────────────────────
 
   cassandra:
     image: cassandra:4
@@ -90,8 +91,6 @@ services:
     build:
       context: ./cortex
       dockerfile: Dockerfile
-
-    #image: thehiveproject/cortex:latest
     container_name: cortex
     restart: unless-stopped
     depends_on:
@@ -102,7 +101,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./cortex/application.conf:/cortex/application.conf
       - ./cortex_analyzer/Cortex-Analyzers:/opt/Cortex-Analyzers
-      - /tmp/cortex-jobs:/tmp/cortex-jobs 
+      - /tmp/cortex-jobs:/tmp/cortex-jobs
     networks:
       - soc_net
 
@@ -137,9 +136,13 @@ services:
     networks:
       - soc_net
 
+  # ─── MISP ─────────────────────────────────────────────────────────────────
+
   redis:
     image: redis:latest
     container_name: redis
+    restart: unless-stopped
+    command: redis-server --requirepass redispassword
     networks:
       - soc_net
 
@@ -158,7 +161,7 @@ services:
       - soc_net
 
   misp:
-    image: coolacid/misp-docker:core-latest
+    image: ghcr.io/misp/misp-docker/misp-core:latest
     container_name: misp
     restart: unless-stopped
     depends_on:
@@ -172,7 +175,39 @@ services:
       MYSQL_DATABASE: mispdb
       MYSQL_USER: mispuser
       MYSQL_PASSWORD: misppass
-      MISP_BASEURL: https://localhost
+      BASE_URL: "https://192.168.1.129"
+      REDIS_FQDN: redis
+      WORKERS: "1"
+    volumes:
+      - mispdata:/var/www/MISP/app/files
+    networks:
+      - soc_net
+
+  # ─── SOC Dashboard ────────────────────────────────────────────────────────
+
+  soc-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: soc-backend
+    restart: unless-stopped
+    ports:
+      - "9101:9101"
+    env_file:
+      - .env
+    networks:
+      - soc_net
+
+  soc-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: soc-frontend
+    restart: unless-stopped
+    ports:
+      - "9100:80"
+    depends_on:
+      - soc-backend
     networks:
       - soc_net
 
@@ -182,6 +217,7 @@ volumes:
   elasticsearchdata:
   thehivedata:
   mispsqldata:
+  mispdata:
 
 networks:
   soc_net:

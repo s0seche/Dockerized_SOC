@@ -1,1 +1,4 @@
 cortex_analyzer/Cortex-Analyzers/
+.env
+.claude/
+docker-compose.original.yml
