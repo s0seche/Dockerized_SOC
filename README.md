@@ -62,9 +62,9 @@ git clone https://github.com/TheHive-Project/Cortex-Analyzers.git cortex_analyze
 docker compose up -d
 ```
 
-**4. (Optional) Import Kibana dashboards**
+**4. (Optional) Inject test data into Elasticsearch**
 ```bash
-python3 scripts/create_dashboards.py
+python3 scripts/generate_events.py all
 ```
 
 ## Configuration
@@ -128,7 +128,7 @@ Dockerized_SOC/
 ├── filebeat/           # Filebeat config for Docker log collection
 ├── frontend/           # React + Vite SOC dashboard
 ├── logstash/           # Logstash pipeline configs
-├── scripts/            # Kibana dashboard creation script
+├── scripts/            # Test data generation scripts
 └── docker-compose.yml  # Main stack definition
 ```
 
